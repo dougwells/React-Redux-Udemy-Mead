@@ -1,82 +1,86 @@
 var GreeterMessage = React.createClass({
-  render: function(){
-    return(
-      <div>
-        <h1>Hello {this.props.name}</h1>
-        <p>{this.props.message}</p>
-      </div>
-    )
-  }
+    render: function () {
+      var name = this.props.name;
+      var message = this.props.message;
+
+      return (
+        <div>
+          <h1>Hello {name}!</h1>
+          <p>{message}</p>
+        </div>
+      );
+    }
 });
 
 var GreeterForm = React.createClass({
+  onFormSubmit: function (e) {
+    e.preventDefault();
 
-  onFormSubmit: function(e){   //since event handler, gets passed event object
-      e.preventDefault();
-      var name = this.refs.name.value;
-      var message = this.refs.message.value
-      if(typeof name==='string' && name.length > 0){
-        this.refs.name.value ="";
-      };
-      if(typeof message==='string' && message.length > 0){
-        this.refs.message.value ="";
-      };
-      this.props.onNewName(name);
-      this.props.onNewMessage(message);
-    },
+    var updates = {};
+    var name = this.refs.name.value;
+    var message = this.refs.message.value;
 
-  render: function(){
-    return(
+    if (name.length > 0) {
+      this.refs.name.value = '';
+      updates.name = name;
+    }
+
+    if (message.length > 0) {
+      this.refs.message.value = '';
+      updates.message = message;
+    }
+
+    this.props.onNewData(updates);
+  },
+  render: function () {
+    return (
       <form onSubmit={this.onFormSubmit}>
-        <input type="text" ref="name" />
-        <input type="text" ref="message" />
-        <button>Submit</button>
+        <div>
+          <input type="text" ref="name" placeholder="Enter name"/>
+        </div>
+        <div>
+          <textarea ref="message" placeholder="Enter message"></textarea>
+        </div>
+        <div>
+          <button>Submit</button>
+        </div>
       </form>
     );
   }
 });
 
-
 var Greeter = React.createClass({
-
-  getDefaultProps: function(){
+  getDefaultProps: function () {
     return {
-      name: "Andrew",
-      message: "This is a test.  Had this been a real emergency ..."
-  }
-},
-
-  getInitialState: function(){
-    return{
-      name: this.props.name,
-      message: this.props.message
-    }
+      name: 'React',
+      message: 'This is the default message!'
+    };
   },
-
-  handleNewName: function(name, message){   //since event handler, gets passed event object
-      this.setState({name: name});
-    },
-
-  handleNewMessage: function(message){
-    this.setState({message: message});
+  getInitialState: function () {
+    return {
+        name: this.props.name,
+        message: this.props.message
+    };
   },
-
-
-  render: function(){
+  handleNewData: function (updates) {
+    this.setState(updates);
+  },
+  render: function () {
     var name = this.state.name;
     var message = this.state.message;
-    return(
-        <div>
-          <GreeterMessage name={name} message={message}/>
-          <GreeterForm onNewName={this.handleNewName} onNewMessage = {this.handleNewMessage}/>
 
-        </div>
-      );
+    return (
+      <div>
+        <GreeterMessage name={name} message={message}/>
+        <GreeterForm onNewData={this.handleNewData}/>
+      </div>
+    );
   }
-
 });
 
+var firstName = 'Andrew';
+
 ReactDOM.render(
-  <Greeter />,
+  <Greeter name={firstName}/>,
   document.getElementById('app')
 );
