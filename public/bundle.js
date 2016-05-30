@@ -49,10 +49,8 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	var Greeter = __webpack_require__(159);
-	// var GreeterMessage = require ('./components/GreeterMessage');
-	// var GreeterForm = require ('./components/GreeterForm');
 
-	var firstName = 'Andrew';
+	var firstName = 'Doug';
 
 	ReactDOM.render(React.createElement(Greeter, { name: firstName }), document.getElementById('app'));
 

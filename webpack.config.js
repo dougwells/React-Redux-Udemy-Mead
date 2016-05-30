@@ -4,7 +4,16 @@ module.exports = {
     path: __dirname,
     filename: './public/bundle.js'
   },
-  resolve: {
+
+  //what files to observe and what is path to those files
+  // __dirname --> what file was webpack called from (app's root directory)
+resolve: {
+    root: __dirname,
+    alias: {
+      Greeter: 'public/components/Greeter.jsx',
+      GreeterMessage: 'public/components/GreeterMessage.jsx',
+      GreeterForm: 'public/components/GreeterForm.jsx'
+    },
     extensions: ['', '.js', '.jsx']
   },
 
